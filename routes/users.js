@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { check } from 'express-validator';
-import Role from '../models/role.js';
 import { isValidRole, emailExists, userIdExists } from '../helpers/db-validators.js';
-import { dataRequestValidation } from '../middlewares/data-request-validation.js';
+
+import { dataRequestValidation, jwtValidation, isAdminRole, haveRole } from "../middlewares/index.js";
 
 import { usersGet, usersPost, usersPut, usersPatch, usersDelete } from '../controllers/users.js';
 
@@ -32,6 +32,9 @@ router.put('/:id',[
 router.patch('/', usersPatch);
 
 router.delete('/:id',[
+    jwtValidation,
+    //isAdminRole,
+    haveRole('ADMIN_ROLE', 'SOMETHING_ROLE', 'NONSENSE_ROLE', 'VENTAS_ROLE'),
     check('id', 'el id no es valido').isMongoId(),
     check('id').custom( userIdExists ),
     dataRequestValidation    

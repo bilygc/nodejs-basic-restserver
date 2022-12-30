@@ -53,4 +53,19 @@ body : {
 `http://localhost:8080/api/usuarios/<userid>`  
 
 #### Delete users(delete)
-`http://localhost:8080/api/usuarios/<userid>`
+`http://localhost:8080/api/usuarios/<userid>`  
+
+#### Login user(post)
+`http://localhost:8080/api/auth/login`  
+
+body : {  
+    &emsp;email : {  
+    &emsp;&emsp;type: String,  
+    &emsp;&emsp;required: true,  
+    &emsp;&emsp;unique:true  
+    &emsp;},  
+    &emsp;password:{  
+    &emsp;&emsp;type: String,  
+    &emsp;&emsp;required: true  
+    &emsp;}
+}

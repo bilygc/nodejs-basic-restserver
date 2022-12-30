@@ -1,6 +1,5 @@
 import { request, response } from "express";
 import bcrypt from 'bcrypt';
-import { validationResult } from 'express-validator';
 import Usuario from '../models/usuario.js';
 
 export const usersGet = async (req = request, res = response) => {
@@ -94,6 +93,6 @@ export const usersDelete = async (req, res) => {
     const deletedUser = await Usuario.findByIdAndUpdate(id, {status:false});
 
     res.json({
-        msg:`User with Id. ${deletedUser._id} and name: ${deletedUser.name} was deleted`
+        deletedUser
     });
 };
