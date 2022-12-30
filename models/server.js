@@ -2,12 +2,17 @@ import express from 'express';
 import cors from 'cors';
 import router from '../routes/users.js';
 
+import { dbConnection } from '../db/config.db.js';
+
 class Server{
 
     constructor(){
         this.port = process.env.PORT;
 
         this.app = express();
+
+        //connect to db
+        this.dbConnect();
 
         //routes
         this.userspath= '/api/usuarios';
@@ -33,6 +38,10 @@ class Server{
 
         //LECTURA Y PARSEO DE LOS PARAMETROS DEL BODY
         this.app.use( express.json() )
+    }
+
+    async dbConnect () {
+        await dbConnection();
     }
 
     start(){
