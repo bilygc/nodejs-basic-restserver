@@ -69,3 +69,6 @@ body : {
     &emsp;&emsp;required: true  
     &emsp;}
 }
+
+### Test google login  
+Open the root path [http://localhost:8080](http://localhost:8080)
