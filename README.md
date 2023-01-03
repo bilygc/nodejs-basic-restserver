@@ -11,64 +11,7 @@ this is a useful template of a nodejs basic REST server, you can use it whenever
 `npm start`
 
 ### API REST Endpoints  
-
-#### Get users(get)
-`http://localhost:8080/api/usuarios?limit=<limitrecords>&offset=<offset>`  
-
-#### Create users(post)
-`http://localhost:8080/api/usuarios`
-
-body : {  
-    &emsp;name : {  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true  
-    &emsp;},  
-    &emsp;email : {  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true,  
-    &emsp;&emsp;unique:true  
-    &emsp;},  
-    &emsp;password:{  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true  
-    &emsp;},  
-    &emsp;img : {  
-    &emsp;&emsp;type: String  
-    &emsp;},  
-    &emsp;role : {  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true  
-    &emsp;},  
-    &emsp;status : {  
-    &emsp;&emsp;type: Boolean,  
-    &emsp;&emsp;default: true  
-    &emsp;},  
-    &emsp;google : {  
-    &emsp;&emsp;type: Boolean,  
-    &emsp;&emsp;required: false  
-    &emsp;}  
-}
-
-#### Update users(put)
-`http://localhost:8080/api/usuarios/<userid>`  
-
-#### Delete users(delete)
-`http://localhost:8080/api/usuarios/<userid>`  
-
-#### Login user(post)
-`http://localhost:8080/api/auth/login`  
-
-body : {  
-    &emsp;email : {  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true,  
-    &emsp;&emsp;unique:true  
-    &emsp;},  
-    &emsp;password:{  
-    &emsp;&emsp;type: String,  
-    &emsp;&emsp;required: true  
-    &emsp;}
-}
+[DOCUMENTATION](https://documenter.getpostman.com/view/1492075/2s8Z711rzi)
 
 ### Test google login  
 Open the root path [http://localhost:8080](http://localhost:8080)
