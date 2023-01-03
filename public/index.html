@@ -31,8 +31,10 @@
         function handleCredentialResponse(response) {
             
             const body = { id_token: response.credential }
+
+            const url = location.hostname === 'localhost' ? 'http://localhost:8080' : 'https://basic-nodejs-rest-server.herokuapp.com';
             
-            fetch('http://localhost:8080/api/auth/googlesignin',{
+            fetch(`${url}/api/auth/googlesignin`,{
                 method:'POST',
                 headers:{
                     'Content-Type': 'application/json'
