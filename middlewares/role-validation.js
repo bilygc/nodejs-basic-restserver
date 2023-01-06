@@ -12,7 +12,7 @@ export const isAdminRole = (req = request, res = response, next) =>{
     const  { role, name } = req.authUser;
 
     if(role !== "ADMIN_ROLE"){
-        res.status(401).json({
+        return res.status(401).json({
             msg:`The user ${name} don\'t have administrator rights`
         })
     }

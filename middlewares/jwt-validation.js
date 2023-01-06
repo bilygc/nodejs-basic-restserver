@@ -1,6 +1,6 @@
 import { request, response } from 'express'
 import jwt from 'jsonwebtoken';
-import Usuario from '../models/usuario.js';
+import {User} from '../models/index.js';
 
 export const jwtValidation = async (req = request, res = response, next) =>{
     const token = req.header('x-token');
@@ -9,7 +9,7 @@ export const jwtValidation = async (req = request, res = response, next) =>{
 
         const { uid } = jwt.verify(token, process.env.JWTPUBLICKEY)
 
-        const usuario = await Usuario.findById(uid);
+        const usuario = await User.findById(uid);
 
         if(!usuario){
             return res.status(401).json({
@@ -31,7 +31,7 @@ export const jwtValidation = async (req = request, res = response, next) =>{
         console.error(err);
         res.status(401).json({
             msg:
-            'User token not valid'
+            'User token not valid or missing'
         })
     }
 }

@@ -4,7 +4,7 @@ import { isValidRole, emailExists, userIdExists } from '../helpers/db-validators
 
 import { dataRequestValidation, jwtValidation, isAdminRole, haveRole } from "../middlewares/index.js";
 
-import { usersGet, usersPost, usersPut, usersPatch, usersDelete } from '../controllers/users.js';
+import { usersGet, usersPost, usersPut, usersDelete } from '../controllers/users.js';
 
 const router = Router();
 
@@ -28,8 +28,6 @@ router.put('/:id',[
     check('role').custom( isValidRole ),
     dataRequestValidation
 ], usersPut);
-
-router.patch('/', usersPatch);
 
 router.delete('/:id',[
     jwtValidation,

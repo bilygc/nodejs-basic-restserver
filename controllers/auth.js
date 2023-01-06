@@ -1,5 +1,5 @@
 import { request, response } from 'express';
-import Usuario from '../models/usuario.js';
+import {User} from '../models/index.js';
 import bcrypt from 'bcrypt';
 import jwtGenerator from '../helpers/jwt-generator.js';
 import googleVerify from '../helpers/google-verify.js';
@@ -9,7 +9,7 @@ export const login = async (req = request, res = response) =>{
     const { email, password } = req.body;
 
     try{
-        const usuario = await Usuario.findOne({email});
+        const usuario = await User.findOne({email});
         
         if(!usuario){
             return res.status(400).json({
@@ -55,7 +55,7 @@ export const googleSignIn = async(req = request, res = response) =>{
     try{
         const { email, name, img } = await googleVerify(id_token);
 
-        let user = await Usuario.findOne({email});
+        let user = await User.findOne({email});
         
         if(!user){
             const data = {
@@ -66,7 +66,7 @@ export const googleSignIn = async(req = request, res = response) =>{
                 password:':p'
             }
 
-            user = new Usuario(data);
+            user = new User(data);
             await user.save();
         }
 

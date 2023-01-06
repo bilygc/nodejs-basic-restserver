@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import userRouter from '../routes/users.js';
-import authRouter from '../routes/auth.js';
+import { authRouter, usersRouter, categoriesRouter, productsRouter, searchRouter } from '../routes/index.js'
 
 import { dbConnection } from '../db/config.db.js';
 
@@ -16,8 +15,13 @@ class Server{
         this.dbConnect();
 
         //routes
-        this.userspath= '/api/usuarios';
-        this.authpath= '/api/auth';
+        this.path ={
+            auth: '/api/auth',
+            categories: '/api/categories',
+            products:'/api/products',
+            users:'/api/users',
+            search:'/api/search'
+        }
 
         //middlewares
         this.middlewares();
@@ -27,8 +31,11 @@ class Server{
     }
 
     routes(){
-        this.app.use(this.userspath, userRouter);
-        this.app.use(this.authpath,authRouter);
+        this.app.use(this.path.auth, authRouter);
+        this.app.use(this.path.categories, categoriesRouter);
+        this.app.use(this.path.products, productsRouter);
+        this.app.use(this.path.search, searchRouter);
+        this.app.use(this.path.users, usersRouter);
     }
 
     middlewares(){

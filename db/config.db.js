@@ -8,11 +8,11 @@ export const dbConnection = async () =>{
             useNewUrlParser:true
         });
 
-        console.log('Base de datos online');
+        console.log('Connected to the databse');
 
     }catch(err){
         console.log(err);
-        throw new Error("Error al realizar la conexion a la base de datos");
+        throw new Error("Error when attempting to connect to the database");
     }
 
 };

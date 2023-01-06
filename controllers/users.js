@@ -1,28 +1,36 @@
 import { request, response } from "express";
 import bcrypt from 'bcrypt';
-import Usuario from '../models/usuario.js';
+import {User} from '../models/index.js';
 
 export const usersGet = async (req = request, res = response) => {
     
-    const { limit = 5, offset = 0 } = req.query;
-    const query = { status: true};
+    try{
+        
+        const { limit = 5, offset = 0 } = req.query;
+        const query = { status: true};
 
-    //validate query parameters to be valid number
-    const parseLimit = isNaN(parseInt(limit)) ? 5: parseInt(limit);
-    const parseOffset = isNaN(parseInt(offset)) ? 0: parseInt(offset);
+        //validate query parameters to be valid number
+        const parseLimit = isNaN(parseInt(limit)) ? 5: parseInt(limit);
+        const parseOffset = isNaN(parseInt(offset)) ? 0: parseInt(offset);
 
-    //use promise all to execute both promises simultaneous
-    const [total, users] = await Promise.all([
-        Usuario.countDocuments(query),
-        Usuario.find(query)
-        .skip(parseOffset)
-        .limit(parseLimit)
-    ]);
+        //use promise all to execute both promises simultaneous
+        const [total, users] = await Promise.all([
+            User.countDocuments(query),
+            User.find(query)
+            .skip(parseOffset)
+            .limit(parseLimit)
+        ]);
 
-    res.json({
-        total,
-        users
-    })
+        res.json({
+            total,
+            users
+        })
+    }catch(err){
+        console.error(err);
+        res.status(500).json({
+            msg: 'Error fetching users, contact the administrator'
+        })
+    }
 };
 
 export const usersPost = async (req, res) => {    
@@ -31,7 +39,7 @@ export const usersPost = async (req, res) => {
         
         const { name, email, password, role } = req.body;    
         
-        const usuario = new Usuario({
+        const usuario = new User({
             name,
             email,
             password,
@@ -61,38 +69,46 @@ export const usersPost = async (req, res) => {
 
 export const usersPut = async (req, res) => {
     
-    const { id  } = req.params;
-    const {_id, password, google, ...rest } = req.body;
+    try{
+        const { id  } = req.params;
+        const {_id, password, google, ...rest } = req.body;
 
-    if( password ){
-        //hashear contraseña
-        const saltRounds = 10;
-    
-        const salt = bcrypt.genSaltSync(saltRounds);//default param bcrypt.genSaltSync(10) can be more than 10 for more security
-        rest.password = bcrypt.hashSync(password, salt);        
+        if( password ){
+            //hashear contraseña
+            const saltRounds = 10;
+        
+            const salt = bcrypt.genSaltSync(saltRounds);//default param bcrypt.genSaltSync(10) can be more than 10 for more security
+            rest.password = bcrypt.hashSync(password, salt);        
+        }
+
+        const user  = await User.findByIdAndUpdate(id, rest, { new: true });
+        
+        res.json({
+            msg: 'User updated',
+            user
+        })
+    }catch(err){
+        console.error(err);
+        res.status(500).json({
+            msg:'Error updating the user, contact the administrator'
+        })
     }
-
-    const user  = await Usuario.findByIdAndUpdate(id, rest);
-    
-    res.json({
-        msg: 'User updated',
-        user
-    })
-};
-
-export const usersPatch = (req, res) => {
-    res.json({
-        msg: 'Hello Patch - controller'
-    })
 };
 
 export const usersDelete = async (req, res) => {
     
-    const { id } = req.params;
+    try{
+        const { id } = req.params;
 
-    const deletedUser = await Usuario.findByIdAndUpdate(id, {status:false});
+        const deletedUser = await User.findByIdAndUpdate(id, {status:false});
 
-    res.json({
-        deletedUser
-    });
+        res.json({
+            deletedUser
+        });
+    }catch(err){
+        console.error(err);
+        res.status(500).json({
+            msg: 'Error deleting the user, contact the administrator'
+        })
+    }
 };
