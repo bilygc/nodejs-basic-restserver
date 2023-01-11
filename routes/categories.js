@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { check } from 'express-validator';
-import { categoryIdExists } from '../helpers/db-validators.js';
+import { categoryIdExists } from '../helpers/index.js';
 
 import { dataRequestValidation, jwtValidation, isAdminRole } from "../middlewares/index.js";
 

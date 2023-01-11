@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { authRouter, usersRouter, categoriesRouter, productsRouter, searchRouter } from '../routes/index.js'
+import fileUpload from 'express-fileupload';
+import { authRouter, usersRouter, categoriesRouter, productsRouter, searchRouter, uploadFile } from '../routes/index.js'
 
 import { dbConnection } from '../db/config.db.js';
 
@@ -19,8 +20,9 @@ class Server{
             auth: '/api/auth',
             categories: '/api/categories',
             products:'/api/products',
-            users:'/api/users',
-            search:'/api/search'
+            search:'/api/search',
+            upload:'/api/upload',
+            users:'/api/users'
         }
 
         //middlewares
@@ -35,6 +37,7 @@ class Server{
         this.app.use(this.path.categories, categoriesRouter);
         this.app.use(this.path.products, productsRouter);
         this.app.use(this.path.search, searchRouter);
+        this.app.use(this.path.upload, uploadFile);
         this.app.use(this.path.users, usersRouter);
     }
 
@@ -45,7 +48,14 @@ class Server{
         this.app.use( express.static('public'));
 
         //LECTURA Y PARSEO DE LOS PARAMETROS DEL BODY
-        this.app.use( express.json() )
+        this.app.use( express.json() );
+
+        //upload files
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true
+        }));
     }
 
     async dbConnect () {

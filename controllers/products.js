@@ -1,6 +1,6 @@
 import { request, response } from "express";
 import {Product} from '../models/index.js';
-import { capitalizeString } from "../helpers/handy.js";
+import { capitalizeString } from "../helpers/index.js";
 
 export const getProducts = async (req = request, res = response) => {
     
