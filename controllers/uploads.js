@@ -99,20 +99,19 @@ export const updateCloudinaryImage = async (req = request, res = response) =>{
                 break;
         }
     
-        if(model.img){
+        if(model.img && !model.google){
             
             const arrImgName = model.img.split('/');
             const [public_id] = arrImgName[ arrImgName.length -1 ].split('.');
 
-            cloudinary.uploader.destroy(public_id);
+            await cloudinary.uploader.destroy(`nodejs-rest-basic-server/${collection}/${public_id}`);
         }
         
         
         const { tempFilePath } = req.files.archivo;
         const {secure_url} = await cloudinary.uploader.upload(tempFilePath, {
-            folder:collection
+            folder:`nodejs-rest-basic-server/${collection}`
         });
-        cloudinary.uploader.upload()
 
         model.img = secure_url;
         await model.save();
